@@ -692,13 +692,15 @@
             transform: scale(0.94);
         }
 
+        /* ===== КИН-ЛИСТ: ФИКСИРОВАННАЯ СЕТКА 3x2 ===== */
         .kin-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
             margin-top: 10px;
             position: relative;
             z-index: 2;
+            max-width: 100%;
         }
 
         .kin-item {
@@ -1026,7 +1028,6 @@
             }
 
             .kin-grid {
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
                 gap: 16px;
             }
 
@@ -1185,18 +1186,22 @@
             }
 
             .kin-grid {
-                grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
-                gap: 12px;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
             }
 
             .kin-item {
-                padding: 5px;
+                padding: 4px;
                 gap: 4px;
-                min-height: 80px;
+                min-height: 70px;
+            }
+
+            .kin-image {
+                border-width: 1.5px;
             }
 
             .kin-name {
-                font-size: 6px;
+                font-size: 5px;
             }
 
             .tag {
@@ -1282,17 +1287,18 @@
             }
 
             .kin-grid {
-                grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-                gap: 8px;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 6px;
             }
 
             .kin-item {
-                min-height: 65px;
-                padding: 4px;
+                min-height: 60px;
+                padding: 3px;
+                gap: 3px;
             }
 
             .kin-name {
-                font-size: 5px;
+                font-size: 4px;
             }
 
             .field {
@@ -1404,10 +1410,15 @@
             <img class="deco-img deco-internet" src="https://i.postimg.cc/CKb6yyps/604378ef899501c7493367e0edfffb97-fotor-bg-remover-20260730182418.png" alt="internet" loading="lazy">
             <div class="section">
                 <div class="section-title" data-en="⌲ kin list" data-ru="⌲ КИН-ЛИСТ">⌲ kin list</div>
+                <!-- ФИКСИРОВАННАЯ СЕТКА 3x2 -->
                 <div class="kin-grid">
                     <div class="kin-item">
                         <img class="kin-image" src="https://i.postimg.cc/X7rvQZZ9/86378fc73c65b1f6f79f99cfd7ce1c74.jpg" alt="Kenzo Tenma" loading="lazy">
                         <span class="kin-name" data-en="Kenzo Tenma" data-ru="Кензо Тенма">Kenzo Tenma</span>
+                    </div>
+                    <div class="kin-item">
+                        <img class="kin-image" src="https://i.postimg.cc/Y0SHQBQW/b01a9635773a6c413b90c5e3b5e24b64.jpg" alt="Pure Vanilla Cookie" loading="lazy">
+                        <span class="kin-name" data-en="Pure Vanilla Cookie" data-ru="Печенька Чистая Ваниль">Pure Vanilla Cookie</span>
                     </div>
                     <div class="kin-item">
                         <img class="kin-image" src="https://i.postimg.cc/CLnFbWXw/6e27df87da1b0b2d73246423a71bc1ec.jpg" alt="Wilbur Soot" loading="lazy">
