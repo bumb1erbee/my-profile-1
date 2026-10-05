@@ -69,7 +69,6 @@
             will-change: transform;
         }
 
-        /* ===== СТАРТОВЫЙ ЭКРАН ===== */
         #start-screen {
             position: fixed;
             top: 0;
@@ -227,7 +226,6 @@
             transform: scale(0.94);
         }
 
-        /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
         #main-content {
             position: relative;
             z-index: 2;
@@ -248,7 +246,6 @@
             pointer-events: all;
         }
 
-        /* ===== СТРАНИЦА ЗАКАЗА ===== */
         #order-page {
             position: relative;
             z-index: 2;
@@ -716,7 +713,6 @@
             transform: scale(0.94);
         }
 
-        /* ===== КИН-ЛИСТ ===== */
         .kin-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -781,7 +777,6 @@
             text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
         }
 
-        /* ===== PROJECTS ===== */
         .projects-list {
             display: flex;
             flex-direction: column;
@@ -915,7 +910,6 @@
             color: #88aaff;
         }
 
-        /* ===== ФОРМА ЗАКАЗА ===== */
         .order-form {
             display: flex;
             flex-direction: column;
@@ -1026,6 +1020,12 @@
             transform: scale(0.94);
         }
 
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .back-btn {
             background: rgba(30, 28, 24, 0.5);
             border: 2px solid rgba(255, 255, 255, 0.12);
@@ -1059,6 +1059,30 @@
             transform: scale(0.94);
         }
 
+        .form-status {
+            font-size: 11px;
+            font-family: 'Press Start 2P', monospace;
+            text-align: center;
+            padding: 12px;
+            border-radius: 4px;
+            display: none;
+            margin-top: 10px;
+        }
+
+        .form-status.success {
+            display: block;
+            color: #88ff88;
+            background: rgba(136, 255, 136, 0.08);
+            border: 1px solid rgba(136, 255, 136, 0.2);
+        }
+
+        .form-status.error {
+            display: block;
+            color: #ff8888;
+            background: rgba(255, 136, 136, 0.08);
+            border: 1px solid rgba(255, 136, 136, 0.2);
+        }
+
         #particles-canvas {
             position: fixed;
             top: 0;
@@ -1069,7 +1093,6 @@
             pointer-events: none;
         }
 
-        /* ===== МОБИЛЬНАЯ ОПТИМИЗАЦИЯ ===== */
         @media (max-width: 768px) {
             body {
                 padding: 12px;
@@ -1612,7 +1635,6 @@
 
     </div>
 
-    <!-- ===== СТРАНИЦА ЗАКАЗА САЙТА ===== -->
     <div id="order-page">
 
         <div class="banner-container">
@@ -1641,7 +1663,8 @@
                         <label class="form-label" for="orderDescription" data-en="describe the website you want" data-ru="опишите, какой сайт вы хотите">describe the website you want</label>
                         <textarea class="form-textarea" id="orderDescription" required data-en-placeholder="Tell me about the style, colors, sections, references, deadline..." data-ru-placeholder="Расскажите о стиле, цветах, разделах, референсах, сроках..." placeholder="Tell me about the style, colors, sections, references, deadline..."></textarea>
                     </div>
-                    <button class="submit-btn" type="submit" data-en="send order" data-ru="отправить заказ">send order</button>
+                    <button class="submit-btn" type="submit" id="submitBtn" data-en="send order" data-ru="отправить заказ">send order</button>
+                    <div class="form-status" id="formStatus"></div>
                 </form>
             </div>
             <div class="footer-note">✦ <a href="https://github.com/bumb1erbee" target="_blank" data-en="made by bumb1erbee on GitHub" data-ru="сделано bumb1erbee на GitHub">made by bumb1erbee on GitHub</a> ✦</div>
@@ -1650,6 +1673,8 @@
     </div>
 
     <script>
+        const PROXY_URL = 'https://customwebs.makvirter.workers.dev/';
+
         const scanCanvas = document.getElementById('scanlines-canvas');
         const scanCtx = scanCanvas.getContext('2d');
         let scanlines = [];
@@ -1795,6 +1820,8 @@
         const translateBtn = document.getElementById('translateBtn');
         const backBtn = document.getElementById('backBtn');
         const orderForm = document.getElementById('orderForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const formStatus = document.getElementById('formStatus');
         let isRussian = false;
 
         function init() {
@@ -1868,24 +1895,42 @@
             }, 300);
         });
 
-        orderForm.addEventListener('submit', (e) => {
+        orderForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+
             const name = document.getElementById('orderName').value.trim();
             const contact = document.getElementById('orderContact').value.trim();
             const budget = document.getElementById('orderBudget').value.trim();
             const description = document.getElementById('orderDescription').value.trim();
 
-            const isRu = translateBtn.textContent === 'English';
+            formStatus.className = 'form-status';
+            formStatus.textContent = '';
+            submitBtn.disabled = true;
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = isRussian ? 'отправка...' : 'sending...';
 
-            let message;
-            if (isRu) {
-                message = `Привет! Хочу заказать сайт.\n\nИмя: ${name}\nКонтакт: ${contact}\nБюджет: ${budget || 'не указан'}\n\nОписание:\n${description}`;
-            } else {
-                message = `Hi! I'd like to order a website.\n\nName: ${name}\nContact: ${contact}\nBudget: ${budget || 'not specified'}\n\nDescription:\n${description}`;
+            try {
+                const response = await fetch(PROXY_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, contact, budget, description })
+                });
+
+                if (response.ok) {
+                    formStatus.className = 'form-status success';
+                    formStatus.textContent = isRussian ? '✦ заказ отправлен! я свяжусь с тобой ✦' : '✦ order sent! i will contact you ✦';
+                    orderForm.reset();
+                } else {
+                    formStatus.className = 'form-status error';
+                    formStatus.textContent = isRussian ? '✗ ошибка отправки. попробуй ещё раз' : '✗ failed to send. try again';
+                }
+            } catch (error) {
+                formStatus.className = 'form-status error';
+                formStatus.textContent = isRussian ? '✗ ошибка сети. проверь подключение' : '✗ network error. check connection';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = isRussian ? 'отправить заказ' : 'send order';
             }
-
-            const telegramUrl = `https://t.me/not_my_day?text=${encodeURIComponent(message)}`;
-            window.open(telegramUrl, '_blank');
         });
 
         function setLanguage(russian) {
@@ -1900,8 +1945,6 @@
             document.querySelectorAll('[data-en-placeholder][data-ru-placeholder]').forEach(el => {
                 el.placeholder = isRussian ? el.getAttribute('data-ru-placeholder') : el.getAttribute('data-en-placeholder');
             });
-
-            translateBtn.textContent = isRussian ? 'English' : 'Translate';
         }
 
         translateBtn.addEventListener('click', () => {
