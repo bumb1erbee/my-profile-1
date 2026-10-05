@@ -1645,7 +1645,7 @@
             <button class="back-btn" id="backBtn">← Back</button>
             <h1 style="margin-top: 20px;" data-en="order a website" data-ru="заказать сайт">order a website</h1>
             <div class="section">
-                <div class="section-title" data-en="⌲ describe your dream" data-ru="⌲ опиши свою мечту">⌲ describe your dream</div>
+                <div class="section-title" data-en="⌲ describe your idea" data-ru="⌲ опишите свою идею">⌲ describe your idea</div>
                 <form class="order-form" id="orderForm">
                     <div class="form-group">
                         <label class="form-label" for="orderName" data-en="your name / nickname" data-ru="ваше имя / никнейм">your name / nickname</label>
@@ -1906,20 +1906,28 @@
             formStatus.className = 'form-status';
             formStatus.textContent = '';
             submitBtn.disabled = true;
-            const originalText = submitBtn.textContent;
             submitBtn.textContent = isRussian ? 'отправка...' : 'sending...';
 
             try {
                 const response = await fetch(PROXY_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, contact, budget, description })
+                    body: JSON.stringify({ 
+                        name, 
+                        contact, 
+                        budget, 
+                        description,
+                        lang: isRussian ? 'ru' : 'en'
+                    })
                 });
 
                 if (response.ok) {
-                    formStatus.className = 'form-status success';
-                    formStatus.textContent = isRussian ? '✦ заказ отправлен! я свяжусь с тобой ✦' : '✦ order sent! i will contact you ✦';
+                    alert(isRussian 
+                        ? '✦ Заказ успешно отправлен! Скоро с вами свяжутся ✦' 
+                        : '✦ Order sent successfully! I will contact you soon ✦');
                     orderForm.reset();
+                    formStatus.className = 'form-status success';
+                    formStatus.textContent = isRussian ? '✦ заказ отправлен! скоро свяжусь ✦' : '✦ order sent! i will contact you soon ✦';
                 } else {
                     formStatus.className = 'form-status error';
                     formStatus.textContent = isRussian ? '✗ ошибка отправки. попробуй ещё раз' : '✗ failed to send. try again';
