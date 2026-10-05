@@ -1532,7 +1532,7 @@
     <div id="main-content">
 
         <div class="banner-container">
-            <img class="banner-image" src="https://i.postimg.cc/RZ1Mqw6k/127b190196fbeeafaaa6d1ec5299771d.jpg" alt="баннер" loading="lazy">
+            <img class="banner-image" src="https://i.postimg.cc/V6VTjjzL/103b77ba0d520afcc0a399889a6a94d7.jpg" alt="баннер" loading="lazy">
         </div>
 
         <div class="section-card">
@@ -1638,7 +1638,7 @@
     <div id="order-page">
 
         <div class="banner-container">
-            <img class="banner-image" src="https://i.postimg.cc/RZ1Mqw6k/127b190196fbeeafaaa6d1ec5299771d.jpg" alt="баннер" loading="lazy">
+            <img class="banner-image" src="https://i.postimg.cc/V6VTjjzL/103b77ba0d520afcc0a399889a6a94d7.jpg" alt="баннер" loading="lazy">
         </div>
 
         <div class="section-card">
@@ -1653,11 +1653,11 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="orderContact" data-en="contact (telegram, discord, email)" data-ru="контакт (телеграм, дискорд, почта)">contact (telegram, discord, email)</label>
-                        <input class="form-input" type="text" id="orderContact" required data-en-placeholder="@your_username" data-ru-placeholder="@ваш_юзернейм" placeholder="@your_username">
+                        <input class="form-input" type="text" id="orderContact" required data-en-placeholder="@your_username" data-ru-placeholder="@ваш_никнейм" placeholder="@your_username">
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="orderBudget" data-en="budget (optional)" data-ru="бюджет (необязательно)">budget (optional)</label>
-                        <input class="form-input" type="text" id="orderBudget" data-en-placeholder="the most optimal price" data-ru-placeholder="самая оптимальная стоимость" placeholder="the most optimal price">
+                        <input class="form-input" type="text" id="orderBudget" data-en-placeholder="e.g. 50$" data-ru-placeholder="например, 5000₽" placeholder="e.g. 50$">
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="orderDescription" data-en="describe the website you want" data-ru="опишите, какой сайт вы хотите">describe the website you want</label>
@@ -1927,7 +1927,7 @@
                         : '✦ Order sent successfully! I will contact you soon ✦');
                     orderForm.reset();
                     formStatus.className = 'form-status success';
-                    formStatus.textContent = isRussian ? '✦ заказ отправлен! скоро отвечу ✦' : '✦ order sent! i will contact you soon ✦';
+                    formStatus.textContent = isRussian ? '✦ заказ отправлен! скоро свяжусь ✦' : '✦ order sent! i will contact you soon ✦';
                 } else {
                     formStatus.className = 'form-status error';
                     formStatus.textContent = isRussian ? '✗ ошибка отправки. попробуй ещё раз' : '✗ failed to send. try again';
